@@ -73,6 +73,21 @@ fs.readFile("picture.png", function(err, data) {
   var zip = new JSZip();
   zip.file("picture.png", data);
 });
+
+//read a zipfile and extract all files to a directory:
+var path = require("path");
+fs.readFile("test.zip", function(err, data) {
+  if (err) throw err;
+  var zip = new JSZip(data);
+  Object.keys(zip.files).forEach(function(filename) {
+    var content = zip.files[filename].asNodeBuffer();
+    var dest = path.join("outputfolder", filename);
+    fs.writeFileSync(dest, content);
+  }
+
+});
+
+
 ```
 
 #### Remote file
